@@ -39,8 +39,8 @@ Paperclip::Attachment.class_eval do
       image_name = generate_image(who, size.to_i)
     elsif symbol.to_s.match(/^sx_[0-9]+_[0-9]+/) || symbol.to_s.match(/^cls_[0-9]+_[0-9]+/)
       values = symbol.to_s.split("_")
-      height = values[1]
-      width = values[2]
+      height = values[2]
+      width = values[1]
       image_name = generate_image("#", height.to_i, width.to_i)
     else
       # if our method string does not match, we kick things back up to super ... this keeps ActiveRecord chugging along happily
@@ -60,7 +60,7 @@ Paperclip::Attachment.class_eval do
       width = height
       prefix = "S_" + height.to_s + "_WIDTH_"
     elsif kind == "both"
-      prefix = "S_" + height.to_s + "_" + height.to_s + "_"
+      prefix = "S_" + height.to_s + "_" + width.to_s + "_"
     elsif kind == "#"
       prefix = "SX_" + height.to_s + "_" + width.to_s + "_"
     end
@@ -75,6 +75,18 @@ Paperclip::Attachment.class_eval do
     url_arr = url.split("/")
     url_file_name = url_arr.pop
     url_path = url_arr.join("/")
+
+    #puts '---------------------------------'
+    #puts self.inspect
+   # puts self.path
+    #puts self.url
+    #puts self.url(:original)
+    #puts self.methods
+    #puts self.source_file_options
+    #puts self.options
+    #puts '---------------------------------'
+    #puts self.instance_variables
+    #puts '---------------------------------'
 
     original = path + "/" + self.original_filename
     newfilename = path + "/" + prefix + file_name
