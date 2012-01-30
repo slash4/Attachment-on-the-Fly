@@ -112,13 +112,13 @@ Paperclip::Attachment.class_eval do
 
     if kind == "height"
       # resize_image infilename, outfilename , 0, height
-      command = "#{convert_command_path}convert -colorspace RGB -geometry x#{height} -quality 100 -sharpen 1 #{original} #{newfilename} 2>&1 > /dev/null"
+      command = "#{convert_command_path}convert -colorspace RGB -geometry x#{height} -quality 100 -sharpen 1 '#{original}' '#{newfilename}' 2>&1 > /dev/null"
     elsif kind == "width"
       # resize_image infilename, outfilename, width
-      command = "#{convert_command_path}convert -colorspace RGB -geometry #{width} -quality 100 -sharpen 1 #{original} #{newfilename} 2>&1 > /dev/null"
+      command = "#{convert_command_path}convert -colorspace RGB -geometry #{width} -quality 100 -sharpen 1 '#{original}' '#{newfilename}' 2>&1 > /dev/null"
     elsif kind == "both"
       # resize_image infilename, outfilename, height, width
-      command = "#{convert_command_path}convert -colorspace RGB -geometry #{width}x#{height} -quality 100 -sharpen 1 #{original} #{newfilename} 2>&1 > /dev/null"
+      command = "#{convert_command_path}convert -colorspace RGB -geometry #{width}x#{height} -quality 100 -sharpen 1 '#{original}' '#{newfilename}' 2>&1 > /dev/null"
     elsif kind == "#"
       
       # resize and crop the image like the # command in the paperclip
@@ -126,15 +126,15 @@ Paperclip::Attachment.class_eval do
       width_difference = geo.width/width
       height_difference = geo.height/height
       if width_difference < height_difference
-        command = "#{convert_command_path}convert -colorspace RGB -geometry #{width} -quality 100 -sharpen 1 #{original} #{newfilename} 2>&1 > /dev/null"
+        command = "#{convert_command_path}convert -colorspace RGB -geometry #{width} -quality 100 -sharpen 1 '#{original}' '#{newfilename}' 2>&1 > /dev/null"
       else
-        command = "#{convert_command_path}convert -colorspace RGB -geometry x#{height} -quality 100 -sharpen 1 #{original} #{newfilename} 2>&1 > /dev/null"
+        command = "#{convert_command_path}convert -colorspace RGB -geometry x#{height} -quality 100 -sharpen 1 '#{original}' '#{newfilename}' 2>&1 > /dev/null"
       end
       #resize
       `#{command}`
 
       # crop
-      command = "#{convert_command_path}convert -colorspace RGB -gravity Center -crop #{width}x#{height}+0+0 +repage  -quality 100 #{newfilename} #{newfilename} 2>&1 > /dev/null"
+      command = "#{convert_command_path}convert -colorspace RGB -gravity Center -crop #{width}x#{height}+0+0 +repage  -quality 100 '#{newfilename}' '#{newfilename}' 2>&1 > /dev/null"
     end
 
     `#{command}`
